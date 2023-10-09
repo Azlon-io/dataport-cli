@@ -9,10 +9,10 @@ RUN dotnet publish -c Release -o out \
     -p:PublishTrimmed=true \
     -p:TrimMode=Link \
     -p:PublishSingleFile=true \
-    -p:AssemblyNameVersion=dataportctl
+    -p:AssemblyNameVersion=azlonctl
 
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-alpine
 
 WORKDIR /app
 COPY --from=build-env /app/out .
-ENTRYPOINT ["./dataportctl"]
+ENTRYPOINT ["./azlonctl"]

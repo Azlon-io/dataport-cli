@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/Azlon.Dataport.Cli/Azlon.Dataport.Cli.csproj",
+                "${workspaceFolder}/Azlon.Dataport.Console.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/Azlon.Dataport.Cli/Azlon.Dataport.Cli.csproj",
+                "${workspaceFolder}/Azlon.Dataport.Console.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/src/Azlon.Dataport.Cli/Azlon.Dataport.Cli.csproj"
+                "${workspaceFolder}/Azlon.Dataport.Console.sln"
             ],
             "problemMatcher": "$msCompile"
         }

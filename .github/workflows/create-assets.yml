@@ -33,28 +33,28 @@ jobs:
       - name: DotNet Publish
         run: |
           echo ${{ steps.format_tag.outputs.tag }}
-          cd src/Azlon.Dataport.Cli
+          cd src/Azlon.Dataport.Console
           dotnet publish -c Release -o ./artifacts \
             --runtime ${{ matrix.distribution }} \
             --self-contained true \
             -p:PublishTrimmed=true \
             -p:TrimMode=Link \
             -p:PublishSingleFile=true \
-            -p:AssemblyNameVersion=dataportctl \
+            -p:AssemblyNameVersion=azlonctl \
             -p:AssemblyVersion=${{ steps.format_tag.outputs.tag }} \
             -p:Version=${{ steps.format_tag.outputs.tag }}
       
       - name: Zip
         run: |
-          mkdir ./src/Azlon.Dataport.Cli/zip
-          cd ./src/Azlon.Dataport.Cli/artifacts
-          zip -r ../zip/azlon.dataport.cli-${{ matrix.distribution }}.zip .
+          mkdir ./src/Azlon.Dataport.Console/zip
+          cd ./src/Azlon.Dataport.Console/artifacts
+          zip -r ../zip/azlonctl-${{ matrix.distribution }}.zip .
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: dotnet-publish-${{ matrix.distribution }}
-          path: ./src/Azlon.Dataport.Cli/zip/
+          path: ./src/Azlon.Dataport.Console/zip/
   
   release:
     needs: publish
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        distribution: [ 'win-x64', 'linux-x64'] # , 'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ]
+        distribution: [ 'win-x64', 'linux-x64'] # , 'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ] # add only if requested by a consumer
     steps:
 
     - name: Download artifact
@@ -96,8 +96,8 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_path: ./artifacts/azlon.dataport.cli-${{ matrix.distribution }}.zip
-        asset_name: azlon.dataport.cli-${{ matrix.distribution }}.zip
+        asset_path: ./artifacts/azlonctl-${{ matrix.distribution }}.zip
+        asset_name: azlonctl-${{ matrix.distribution }}.zip
         asset_content_type: application/zip
       env:
         GITHUB_TOKEN: ${{ secrets.AZLON_DATAPORT_CLI_PAT }}

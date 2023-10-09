@@ -1,52 +1,69 @@
-using System;
-using System.Reflection;
-using CommandLine;
 using Microsoft.Extensions.Logging;
+using CommandLine;
+using System.Reflection;
 
-public static class Utilities
+public class Utilities
 {
-    public const LogLevel DefaultLogLevel = LogLevel.Debug;
-    
+    public const string EnvironmentVariablesPrefix = "DP";
+
+    public static async Task DownloadAndSaveToFileAsync(Uri url, string folderPath, string fileName)
+    {
+        Directory.CreateDirectory(folderPath);
+
+        var content = await GetUrlContentAsync(url);
+        if (content == null)
+        {
+            return;
+        }
+
+        await File.WriteAllBytesAsync(Path.Combine(folderPath, fileName), content);
+    }
+
+    private static async Task<byte[]?> GetUrlContentAsync(Uri url)
+    {
+        using var client = new HttpClient();
+        using var result = await client.GetAsync(url);
+        if (!result.IsSuccessStatusCode)
+        {
+            // TODO: Log error, don't interupt the app
+        }
+        return result.IsSuccessStatusCode ? await result.Content.ReadAsByteArrayAsync() : null;
+    }
+
     public static LogLevel GetLogLevel(string[] args)
     {
         var levels = Enum.GetNames<LogLevel>();
-        foreach(var level in levels)
+        foreach (var level in levels)
         {
-            if (args.Contains($"-l={level}") || args.Contains($"--loglevel={level}") || Environment.GetEnvironmentVariable("DP_LOGLEVEL") == level)
+            if (args.Contains($"-l={level}") || args.Contains($"--loglevel={level}") || Environment.GetEnvironmentVariable($"{EnvironmentVariablesPrefix}_LOGLEVEL") == level)
             {
                 return Enum.Parse<LogLevel>(level);
             }
         }
         // default
-        return DefaultLogLevel;
+        return LogLevel.Information;
     }
 
-    /// <summary>
-    /// Extends command line arguments with environment variable inputs.
-    /// </summary>
-    /// <param name="args"></param>
-    /// <param name="logger"></param>
-    /// <returns></returns>
-    public static string[] AppendEnvironmentVariables(string[] args, ILogger logger)
+    public static string[] AppendEnvironmentVariables(string[] args, ILogger logger = null)
     {
         var options = GetOptions();
-        
+
         var newArgs = new List<string>(args);
         foreach (var unusedOption in FilterOptions(args, options))
         {
-            // repalced this 'Assembly.GetExecutingAssembly().GetName().Name.ToUpperInvariant()' with a static prefix of 'DP_'
+            // repalced this 'Assembly.GetExecutingAssembly().GetName().Name.ToUpperInvariant()' with a static prefix of '{EnvironmentVariablesPrefix}_'
             // ignore verbs since this solution has only 1
-            var value = Environment.GetEnvironmentVariable($"DP_{unusedOption.LongName.ToUpperInvariant()}");
-            
+            var value = Environment.GetEnvironmentVariable($"{EnvironmentVariablesPrefix}_{unusedOption.LongName.ToUpperInvariant()}");
+
             // try reading a docker secret, ignore errors
             if (string.IsNullOrWhiteSpace(value))
             {
-                logger.LogDebug($"Trying to read docker secret for {unusedOption.LongName} at /run/secrets/DP_{unusedOption.LongName.ToUpperInvariant()}");
+                logger.LogDebug($"Trying to read docker secret for {unusedOption.LongName} at /run/secrets/{EnvironmentVariablesPrefix}_{unusedOption.LongName.ToUpperInvariant()}");
                 try
                 {
-                    value = File.ReadAllText($"/run/secrets/DP_{unusedOption.LongName.ToUpperInvariant()}");
+                    value = File.ReadAllText($"/run/secrets/{EnvironmentVariablesPrefix}_{unusedOption.LongName.ToUpperInvariant()}");
                 }
-                catch{}
+                catch { }
             }
 
             if (value != null)
@@ -59,10 +76,9 @@ public static class Utilities
 
     private static OptionAttribute[] GetOptions()
     {
-        // works with 1 verb only, requires a refactor for multi-verb, using reflection to loop through verbs
-        return typeof(NotificationsOptions).GetProperties()
+        return typeof(ConsoleOptions).GetProperties()
             .Select(property => property.GetCustomAttributes<OptionAttribute>().FirstOrDefault())
-            .Where(option => option != null).Cast<OptionAttribute>().ToArray();
+            .Where(option => option != null).ToArray();
     }
 
     private static OptionAttribute[] FilterOptions(string[] args, OptionAttribute[] options)
