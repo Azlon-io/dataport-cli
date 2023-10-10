@@ -30,6 +30,10 @@ jobs:
         id: format_tag
         run: echo "::set-output name=tag::${GITHUB_REF:11}"
 
+      - name: install nuget repo
+        run: |
+          dotnet nuget add source --username m-v-k --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Azlon-io/index.json"
+
       - name: DotNet Publish
         run: |
           echo ${{ steps.format_tag.outputs.tag }}
