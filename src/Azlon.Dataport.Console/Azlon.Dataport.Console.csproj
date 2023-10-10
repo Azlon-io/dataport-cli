@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azlon.DataPort.Client" Version="2.0.7" />
+    <PackageReference Include="Azlon.DataPort.Client" Version="2.0.9" />
   </ItemGroup>
 
   <ItemGroup>
