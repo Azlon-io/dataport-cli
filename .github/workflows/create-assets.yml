@@ -37,8 +37,8 @@ jobs:
       - name: DotNet Publish
         run: |
           cd src/Azlon.Dataport.Console
-          dotnet publish -c Release -o ./artifacts --runtime ${{ matrix.distribution }} --self-contained true -p:PublishTrimmed=true -p:TrimMode=Link -p:PublishSingleFile=true -p:AssemblyNameVersion=azlonctl -p:AssemblyVersion=${{ steps.format_tag.outputs.tag }} -p:Version=${{ steps.format_tag.outputs.tag }}
-#          echo ${{ steps.format_tag.outputs.tag }}
+          echo ${{ steps.format_tag.outputs.tag }}
+          dotnet publish -c Release -o ./artifacts --runtime ${{ matrix.distribution }} --self-contained true -p:PublishTrimmed=true -p:TrimMode=Link -p:PublishSingleFile=true -p:AssemblyNameVersion=azlonctl -p:AssemblyVersion=${{ steps.format_tag.outputs.tag }} -p:NuGetVersion=${{ steps.format_tag.outputs.tag }} -p:Version=${{ steps.format_tag.outputs.tag }}
       
       - name: Zip
         run: |
