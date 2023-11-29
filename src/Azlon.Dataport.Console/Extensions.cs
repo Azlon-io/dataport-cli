@@ -1,6 +1,3 @@
-using Microsoft.Extensions.Logging;
-using CommandLine;
-using System.Reflection;
 using Azlon.Dataport.Client;
 public static class Extensions
 {

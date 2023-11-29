@@ -15,7 +15,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        distribution: [ 'win-x64', 'linux-x64'] # , 'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ]
+        distribution: ['win-x64'] # ,, 'linux-x64', 'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ]
     steps:
 
       - name: Check out the repo
@@ -37,12 +37,12 @@ jobs:
       - name: install nuget repo
         run: |
           dotnet nuget add source --username m-v-k --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Azlon-io/index.json"
-
+#-p:NuGetVersion=${{ steps.format_tag.outputs.tag }}
       - name: DotNet Publish
         run: |
           cd src/Azlon.Dataport.Console
-          echo ${{ steps.format_tag.outputs.tag }}
-          dotnet publish -c Release -o ./artifacts --runtime ${{ matrix.distribution }} --self-contained true -p:PublishTrimmed=true -p:TrimMode=Link -p:PublishSingleFile=true -p:AssemblyNameVersion=azlonctl -p:AssemblyVersion=${{ steps.format_tag.outputs.tag }} -p:NuGetVersion=${{ steps.format_tag.outputs.tag }} -p:Version=${{ steps.format_tag.outputs.tag }}
+          dotnet restore --force --runtime ${{ matrix.distribution }}
+          dotnet publish -c Release -o ./artifacts --runtime ${{ matrix.distribution }} --self-contained true -p:PublishTrimmed=true -p:TrimMode=Link -p:PublishSingleFile=true -p:AssemblyNameVersion=azlonctl -p:AssemblyVersion=${{ steps.format_tag.outputs.tag }} -p:Version=${{ steps.format_tag.outputs.tag }}
       
       - name: Zip
         run: |
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        distribution: [ 'win-x64', 'linux-x64'] # , 'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ] # add only if requested by a consumer
+        distribution: [ 'win-x64'] # , , 'linux-x64' 'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ] # add only if requested by a consumer
     steps:
 
     - name: Download artifact

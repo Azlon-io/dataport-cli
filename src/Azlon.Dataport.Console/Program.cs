@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Azlon.Dataport.Client;
-using System.Collections.Specialized;
 
 public class Program
 {
