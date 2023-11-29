@@ -19,11 +19,8 @@ jobs:
         shell: bash
         run: |
           TAG=${{ github.ref }}
-          echo $TAG
           TAG=${TAG:11}
-          echo $TAG
           echo "tag=$TAG" >> $GITHUB_OUTPUT
-          echo "test"
 
       - name: DotNet Publish
         shell: bash
