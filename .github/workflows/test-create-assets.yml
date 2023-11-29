@@ -1,13 +1,9 @@
-name: Create Assets
-
-# run: 
-# git tag -a v0.2.4 -m "Test Release 0.2.4"
-# git push origin v0.2.4
+name: Test Create Assets
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - 'devops/test-pipeline'
 
 jobs:
   publish:
