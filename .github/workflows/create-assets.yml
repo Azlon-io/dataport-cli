@@ -28,7 +28,10 @@ jobs:
 
       - name: Get the tag without the 'v' prefix
         id: format_tag
-        run: echo "::set-output name=tag::${GITHUB_REF:11}"
+        run: |
+          echo "::set-output name=tag::${GITHUB_REF:11}"
+          echo "tag=${GITHUB_REF:11}" >> $GITHUB_OUTPUT
+          echo ${GITHUB_REF:11}
 
       - name: install nuget repo
         run: |
