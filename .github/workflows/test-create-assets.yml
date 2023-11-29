@@ -17,8 +17,8 @@ jobs:
       - name: Get the tag without the 'v' prefix
         id: format_tag
         run: |
-          echo "tag=${{ github.ref:11 }}" >> $GITHUB_OUTPUT
-          echo "${{ github.ref:11 }}"
+          echo "tag=${{ github.ref }}" >> $GITHUB_OUTPUT
+          echo "$GITHUB_REF"
           echo "test"
 
       - name: DotNet Publish
