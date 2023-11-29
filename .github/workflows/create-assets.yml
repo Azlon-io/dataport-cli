@@ -28,10 +28,11 @@ jobs:
 
       - name: Get the tag without the 'v' prefix
         id: format_tag
+        shell: bash
         run: |
-          echo "tag=${GITHUB_REF:11}" >> $GITHUB_OUTPUT
-          echo "${GITHUB_REF:11}"
-          echo "test"
+          TAG=${{ github.ref }}
+          TAG=${TAG:11}
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
 
       - name: install nuget repo
         run: |
