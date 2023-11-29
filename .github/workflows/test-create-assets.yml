@@ -27,11 +27,11 @@ jobs:
         run: |
           echo "tag=${GITHUB_REF:11}" >> $GITHUB_OUTPUT
           echo "${GITHUB_REF:11}"
-          echo ${{ github.event.head_commit.ref }}
+          echo "${{ github.ref }}"
+          echo "${{ github.event.head_commit.ref }}"
           echo "test"
 
       - name: DotNet Publish
         run: |
           cd src/Azlon.Dataport.Console
           echo ${{ steps.format_tag.outputs.tag }}
-        
