@@ -14,21 +14,11 @@ jobs:
         distribution: [ 'win-x64'] # , 'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ]
     steps:
 
-      - name: Check out the repo
-        uses: actions/checkout@v3
-      
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'
-
       - name: Get the tag without the 'v' prefix
         id: format_tag
         run: |
-          echo "tag=${GITHUB_REF:11}" >> $GITHUB_OUTPUT
-          echo "${GITHUB_REF:11}"
-          echo "${{ github.ref }}"
-          echo "${{ github.event.head_commit.ref }}"
+          echo "tag=${{ github.ref:11 }}" >> $GITHUB_OUTPUT
+          echo "${{ github.ref:11 }}"
           echo "test"
 
       - name: DotNet Publish
