@@ -1,8 +1,10 @@
 name: Create Assets
 
-# run: 
-# git tag -a v0.2.4 -m "Test Release 0.2.4"
-# git push origin v0.2.4
+# To create a build and release it, simply add a tag on the production code that you want released and push it to GitHub.
+# GitHub will then start a CI & CD
+# example:
+# git tag -a v2.0.1 -m "Test Release 2.0.1"
+# git push origin v2.0.1
 
 on:
   push:
