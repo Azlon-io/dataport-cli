@@ -1,10 +1,7 @@
-using Azlon.Dataport.Client.Configuration;
+
 using Azlon.Dataport.Model;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
-using Azlon.Dataport.Client;
 using System.Xml;
-using System.Xml.XPath;
 
 public class Notifications
 {
