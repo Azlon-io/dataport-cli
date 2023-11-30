@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        distribution: ['win-x64'] # ,, 'linux-x64', 'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ]
+        distribution: ['win-x64', 'linux-x64'] # ,, 'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ]
     steps:
 
       - name: Check out the repo
@@ -73,7 +73,7 @@ jobs:
         prerelease: false
       id: create_release
       env:
-        GITHUB_TOKEN: ${{ secrets.AZLON_DATAPORT_CLI_PAT }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
     
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        distribution: [ 'win-x64'] # , , 'linux-x64' 'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ] # add only if requested by a consumer
+        distribution: [ 'win-x64', 'linux-x64'] # ,  'osx-x64' , 'win-arm64', 'win-x86',  'linux-arm64', 'osx-arm64' ] # add only if requested by a consumer
     steps:
 
     - name: Download artifact
@@ -100,4 +100,4 @@ jobs:
         asset_name: azlonctl-${{ matrix.distribution }}.zip
         asset_content_type: application/zip
       env:
-        GITHUB_TOKEN: ${{ secrets.AZLON_DATAPORT_CLI_PAT }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
