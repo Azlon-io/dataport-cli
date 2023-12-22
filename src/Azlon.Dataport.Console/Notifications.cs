@@ -30,6 +30,7 @@ public class Notifications
 
             try
             {
+                logger.LogInformation($"Downloading and saving file for message {message.MessageIdentifier}.");
                 Utilities.DownloadAndSaveToFileAsync(uri, consoleOptions.OutFolder, fileName).GetAwaiter().GetResult();
             }
             catch (Exception ex)
@@ -45,6 +46,8 @@ public class Notifications
 
     public async Task ProcessExtraFilesXpath(string outFolder, string fileName)
     {
+        logger.LogInformation($"Processing extra files xpath for file {fileName}.");
+
         var xmlDocument = new XmlDocument();
         xmlDocument.Load(Path.Join(outFolder, fileName).ToString());
         foreach (var xpath in consoleOptions.ExtraFilesXpath)
