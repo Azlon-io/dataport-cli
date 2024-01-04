@@ -21,16 +21,16 @@ public class Notifications
         // TODO: write logic for file naming pattern
         // TODO: optionally write logic for subfiles. when the file is a 'product xml' the xml contains information about related (versioned) files, these also need to be downloaded and saved to disk.
         // do this inan abstract manner to avoid configration in code (use configuration do this this business logic, e.g. configure a list of xpath for additional downloads, and a filename regex)
-        logger.LogDebug($"received message with identitfier: {message.MessageIdentifier}.");
+        logger.LogDebug("received message with identitfier: {messageIdentifier}.", message.MessageIdentifier);
         if (message != null)
         {
-            logger.LogDebug($"message: {message}.");
+            logger.LogDebug("message: {message}.", message);
             var uri = new Uri(message.DataContainer.Uri.ToString());
             var fileName = Path.GetFileName(message.DataContainer.Uri.ToString());
 
             try
             {
-                logger.LogInformation($"Downloading and saving file for message {message.MessageIdentifier}.");
+                logger.LogInformation("Downloading and saving file for message {messageIdentifier}.", message.MessageIdentifier);
                 Utilities.DownloadAndSaveToFileAsync(uri, consoleOptions.OutFolder, fileName).GetAwaiter().GetResult();
             }
             catch (Exception ex)
@@ -46,7 +46,7 @@ public class Notifications
 
     public async Task ProcessExtraFilesXpath(string outFolder, string fileName)
     {
-        logger.LogInformation($"Processing extra files xpath for file {fileName}.");
+        logger.LogInformation("Processing extra files xpath for file {fileName}.", fileName);
 
         var xmlDocument = new XmlDocument();
         xmlDocument.Load(Path.Join(outFolder, fileName).ToString());
@@ -90,7 +90,7 @@ public class Notifications
                         filename = Path.GetFileName(urlXpath);
                     }
 
-                    logger.LogInformation($"Extracted url {url} from item Xpath {itemXpath} and url xpath {urlXpath} and trying to download.");
+                    logger.LogInformation("Extracted url {url} from item Xpath {itemXpath} and url xpath {urlXpath} and trying to download.", url, itemXpath, urlXpath);
                     try
                     {
                         // TODO: download from blob? and choose filename (also xpath?)
