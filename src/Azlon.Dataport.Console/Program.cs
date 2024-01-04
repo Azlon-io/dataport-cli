@@ -2,18 +2,20 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Azlon.Dataport.Client;
+using Serilog;
+using Microsoft.Extensions.Configuration;
 
 public class Program
 {
     static CancellationTokenSource cts = new CancellationTokenSource();
     static void Main(string[] args)
-    {
+    {     
         // init logger
         ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
         {
             builder.AddConsole().SetMinimumLevel(Utilities.GetLogLevel(args));
         });
-        ILogger logger = loggerFactory.CreateLogger<Program>();
+        Microsoft.Extensions.Logging.ILogger logger = loggerFactory.CreateLogger<Program>();
         logger.LogDebug("Logger Factory initialized.");
 
 #if DEBUG
@@ -44,10 +46,21 @@ public class Program
         };
 
         // register stuff
+
+        var builder = new ConfigurationBuilder();
+        builder.AddEnvironmentVariables();
+        var configuration = builder.Build();
+
+        var serilogLogger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
+            .CreateLogger();
+
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddLogging(builder =>
         {
             builder.AddConsole().SetMinimumLevel(Utilities.GetLogLevel(args));
+
+            builder.AddSerilog(serilogLogger);
         });
         var consoleOptions = consoleArguments.Value;
         var dataportOptions = consoleOptions.ToDataportOptions();
