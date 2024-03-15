@@ -72,8 +72,10 @@ jobs:
       run: |
         RELEASE_EXISTS=$(gh release view ${{ github.ref }} 2>&1 | grep -c "release not found")
         if [ "$RELEASE_EXISTS" -eq "0" ]; then
+          echo "true"
           echo "::set-output name=exists::true"
         else
+          echo "false"
           echo "::set-output name=exists::false"
         fi
       env:
