@@ -67,7 +67,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Create Release
+    - name: Check Release
+      id: check_release
+      run: |
+        RELEASE_EXISTS=$(gh release view ${{ github.ref }} 2>&1 | grep -c "release not found")
+        if [ "$RELEASE_EXISTS" -eq "0" ]; then
+          echo "::set-output name=exists::true"
+        else
+          echo "::set-output name=exists::false"
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create Release if not exists
+      if: steps.check_release.outputs.exists == 'false'
       uses: actions/create-release@v1
       with:
         tag_name: ${{ github.ref }}
