@@ -11,3 +11,5 @@ on Windows this implicit reference (dll is part of the client nuget) works.
 
 TODO: fix this incompatibility, and finish the pipeline. option is to move required models to the client project.
 https://stackoverflow.com/questions/72984765/nuget-pack-multiple-projects-into-single-nuget-package-with-all-external-depende
+
+
