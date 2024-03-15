@@ -3,8 +3,8 @@ name: Create Assets
 # To create a build and release it, simply add a tag on the production code that you want released and push it to GitHub.
 # GitHub will then start a CI & CD
 # example:
-# git tag -a v2.0.1 -m "Test Release 2.0.1"
-# git push origin v2.0.1
+# git tag -a v2.0.27 -m "Release 2.0.27"
+# git push origin v2.0.27
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
 
       - name: Check out the repo
         uses: actions/checkout@v3
-      
+
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
@@ -67,6 +67,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Output Event Name
+      run: echo "This workflow was triggered by ${{ github.event_name }}"
+      
     - name: Check Release
       id: check_release
       run: |
@@ -82,7 +85,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create Release if not exists
-      if: steps.check_release.outputs.exists == 'false'
+      if: github.event_name != 'release' || github.event.action != 'created' # steps.check_release.outputs.exists == 'false'
       uses: actions/create-release@v1
       with:
         tag_name: ${{ github.ref }}
