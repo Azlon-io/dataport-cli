@@ -7,7 +7,7 @@ The CLI tool can also be used to receive files from a DataPort.
 
 Get the latest version [here](https://github.com/Azlon-io/dataport-cli/tags).
 
-Another sample application can be found [here](https://github.com/Azlon-io/DataPorts).
+The Azlon.DataPort.Client package and a desktop sample application can be found [here](https://github.com/Azlon-io/DataPorts).
 
 ## Implement the Azlon.DataPort.Client package
 ### Configuration
