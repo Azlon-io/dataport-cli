@@ -52,7 +52,7 @@ public class Program
         var configuration = builder.Build();
 
         var serilogLogger = new LoggerConfiguration()
-            .ReadFrom.Configuration(configuration)
+            .WriteTo.File("log_.txt", Serilog.Events.LogEventLevel.Information, rollingInterval: RollingInterval.Day)
             .CreateLogger();
 
         var serviceCollection = new ServiceCollection();
