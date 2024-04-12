@@ -5,13 +5,14 @@ public static class Extensions
     {
         return new DataportOptions()
         {
-            AzureBlobConnectionstring = options.AzureBlobConnectionstring,
+            Environment = options.Environment,
+            Name = options.Name,
+            ApiAddress = options.ApiAddress,
+            Connectionstring = options.Connectionstring,
+            SharedAccessKey = options.SharedAccessKey,
+            DeviceId = options.DeviceId,
             AzureBlobContainer = options.AzureBlobContainer,
             AzureBlobHost = options.AzureBlobHost,
-            DataportApiAddress = options.DataportApiAddress,
-            DataportApiToken = options.DataportApiToken,
-            DataportConnectionstring = options.DataportConnectionstring,
-            DataportDeviceId = options.DataportDeviceId,
         };
     }
 }
