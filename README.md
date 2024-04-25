@@ -34,7 +34,7 @@ For now only receiving files from a DataPort is implemented in the CLI tool.
 However, implementing sending files is easily implemented by calling method SendDataportContainerAsync() on the DataportClient class.
 
 ## Using the CLI tool for receiving files
-- Download the latest version of the CLI tool for Windows (azlonctl-win-x64.zip) or Linux (azlonctl-linux-x64.zip) ([link](https://github.com/Azlon-io/dataport-cli/tags).)
+- Download the latest version of the CLI tool for Windows (azlonctl-win-x64.zip) or Linux (azlonctl-linux-x64.zip) ([link](https://github.com/Azlon-io/dataport-cli/tags))
 - Run the tool by providing the configuration parameters, for example:
 ```
 azlonctl.exe --out="/dataport-output" --loglevel=Information --environment=Test --name=Test DataPort --deviceId=??? --sharedaccesskey=???
