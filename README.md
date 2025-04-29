@@ -15,7 +15,7 @@ Use the .env.example file to create an .env file in the solution folder. After t
 
 - DP_OUT: Path where received files are stored
 - DP_LOGLEVEL: Information|Warning|Error
-- DP_ENV: test|live **(case sensitive!)**
+- DP_ENV: dev|tst|stg|live **(case sensitive!)**
 - DP_NAME: Name of the DataPort
 - DP_DEVICEID: Unique DataPort identifier, supplied by your contact person
 - DP_SHAREDACCESSKEY: Access key for the DataPort, supplied by your contact person
