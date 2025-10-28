@@ -53,7 +53,7 @@ jobs:
           zip -r ../zip/azlonctl-${{ matrix.distribution }}.zip .
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: dotnet-publish-${{ matrix.distribution }}
           path: ./src/Azlon.Dataport.Console/zip/
